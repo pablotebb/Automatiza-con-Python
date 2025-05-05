@@ -1,7 +1,11 @@
 import os
 import shutil
+import getpass
 
 from tkinter import Tk, filedialog
+from datetime import datetime
+
+usuario = getpass.getuser()
 
 #Ruta donde están los archivos a ordenar
 
@@ -42,7 +46,11 @@ for archivo in os.listdir(ruta):
     
     if ext in extensiones:
       destino = os.path.join(ruta, extensiones[ext], archivo)
+      
       shutil.move(ruta_archivo, destino)
+      
+      with open(os.path.join(ruta, "log_movimientos.txt"), "a", encoding="utf-8") as log:
+        log.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Usuario: {usuario} - Movido: {archivo} -> {destino}\n")
   
   
     
