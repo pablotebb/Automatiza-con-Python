@@ -45,7 +45,22 @@ for archivo in os.listdir(ruta):
     ext = ext.lower()
     
     if ext in extensiones:
-      destino = os.path.join(ruta, extensiones[ext], archivo)
+      #destino = os.path.join(ruta, extensiones[ext], archivo)
+      
+      #Obtener la fecha de la última modificación 
+      fecha_mod = datetime.fromtimestamp(os.path.getmtime(ruta_archivo))
+      subcarpeta_fecha = fecha_mod.strftime("%Y-%m") # Formatea a "2025-04"
+      
+      #Crear la subcarpeta si no existe
+      
+      carpeta_tipo = os.path.join(ruta, extensiones[ext])
+      carpeta_fecha = os.path.join(carpeta_tipo, subcarpeta_fecha)
+      
+      if not os.path.exists(carpeta_fecha):
+        os.makedirs(carpeta_fecha)
+        
+      # Ruta destino final
+      destino = os.path.join(carpeta_fecha, archivo)
       
       shutil.move(ruta_archivo, destino)
       
